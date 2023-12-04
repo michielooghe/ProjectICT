@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectICT"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="LedBar" Height="450" Width="800">
     <Grid>
-
+        <Button x:Name="knop1" HorizontalAlignment="Left" Margin="80,64,0,0" VerticalAlignment="Top" Content="Van links naar rechts"/>
+        <Button x:Name="knop2" HorizontalAlignment="Left" Margin="80,104,0,0" VerticalAlignment="Top" Content="Van rechts naar links"/>
+        <Button x:Name="knop3" HorizontalAlignment="Left" Margin="80,144,0,0" VerticalAlignment="Top" Content="Van binnen naar buiten"/>
+        <Button x:Name="knop4" HorizontalAlignment="Left" Margin="80,184,0,0" VerticalAlignment="Top" Content="Knipperen"/>
+        <TextBlock HorizontalAlignment="Left" Margin="560,28,0,0" TextWrapping="Wrap" Text="Geef compoort in." VerticalAlignment="Top"/>
+        <Ellipse x:Name="Cirkel1" HorizontalAlignment="Left" Height="50" Margin="240,224,0,0" Stroke="Black" VerticalAlignment="Top" Width="50"/>
+        <Ellipse x:Name="Cirkel2" HorizontalAlignment="Left" Height="50" Margin="300,224,0,0" Stroke="Black" VerticalAlignment="Top" Width="50"/>
+        <Ellipse x:Name="Cirkel3" HorizontalAlignment="Left" Height="50" Margin="360,224,0,0" Stroke="Black" VerticalAlignment="Top" Width="50"/>
+        <Ellipse x:Name="Cirkel4" HorizontalAlignment="Left" Height="50" Margin="420,224,0,0" Stroke="Black" VerticalAlignment="Top" Width="50"/>
+        <Ellipse x:Name="Cirkel5" HorizontalAlignment="Left" Height="50" Margin="480,224,0,0" Stroke="Black" VerticalAlignment="Top" Width="50"/>
+        <Ellipse x:Name="Cirkel6" HorizontalAlignment="Left" Height="50" Margin="540,224,0,0" Stroke="Black" VerticalAlignment="Top" Width="50"/>
+        <Ellipse x:Name="Cirkel7" HorizontalAlignment="Left" Height="50" Margin="600,224,0,0" Stroke="Black" VerticalAlignment="Top" Width="50"/>
+        <Ellipse x:Name="Cirkel8" HorizontalAlignment="Left" Height="50" Margin="660,224,0,0" Stroke="Black" VerticalAlignment="Top" Width="50"/>
+        <ComboBox Name="cbxComPorts" SelectionChanged="cbxComPorts_SelectionChanged" HorizontalAlignment="Left" Margin="560,63,0,0" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>
