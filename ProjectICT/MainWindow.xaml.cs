@@ -25,7 +25,8 @@ namespace ProjectICT
         SerialPort _serialPort;
         Leds _leds;
 
-        private DispatcherTimer _timer;
+        
+
 
         Brush filledBrush = Brushes.Yellow;
         Brush transparentBrush = Brushes.Transparent;
@@ -34,12 +35,14 @@ namespace ProjectICT
         {
             InitializeComponent();
 
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(100);
-            _timer.Tick += Timer_Tick;
-
-
             _serialPort = new SerialPort();
+
+            _serialPort.BaudRate = 9600;
+            _serialPort.StopBits = StopBits.One;
+            _serialPort.DataBits = 8;
+            _serialPort.Parity = Parity.None;
+            
+
             _leds = new Leds();
 
             // Komt er data binnen? Ga verder naar de event handler.
@@ -66,21 +69,21 @@ namespace ProjectICT
 
         private void Update(string text)
         {
-            _leds.ComData = Convert.ToInt32(text);
+            if (text.Contains("Reboot"))
+            {
+                _leds.ComData = 0;
+                
+            }
+            else
+            {
+                _leds.ComData = Convert.ToByte(text);
+                
+            }
 
-            if(_leds.Toggle1 == true) { _timer.Start(); }
-            
-            
-
-
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            _leds.Aansturen();
             LedUpdate();
-            if (_leds.Toggle1 == false && _leds.Led8 == true) { _timer.Stop(); _leds.Reset(); }
+
         }
+
 
         private void LedUpdate()
         {
@@ -134,6 +137,35 @@ namespace ProjectICT
         {
             if (_serialPort != null)
                 _serialPort.Dispose();
+        }
+
+        private void knop1_Click(object sender, RoutedEventArgs e)
+        {
+            string dataToSend = "1";
+            byte[] asciiBytes = Encoding.ASCII.GetBytes(dataToSend);
+            _serialPort.Write(asciiBytes, 0, asciiBytes.Length);
+
+        }
+
+        private void knop2_Click(object sender, RoutedEventArgs e)
+        {
+            string dataToSend = "2";
+            byte[] asciiBytes = Encoding.ASCII.GetBytes(dataToSend);
+            _serialPort.Write(asciiBytes, 0, asciiBytes.Length);
+        }
+
+        private void knop3_Click(object sender, RoutedEventArgs e)
+        {
+            string dataToSend = "3";
+            byte[] asciiBytes = Encoding.ASCII.GetBytes(dataToSend);
+            _serialPort.Write(asciiBytes, 0, asciiBytes.Length);
+        }
+
+        private void knop4_Click(object sender, RoutedEventArgs e)
+        {
+            string dataToSend = "4";
+            byte[] asciiBytes = Encoding.ASCII.GetBytes(dataToSend);
+            _serialPort.Write(asciiBytes, 0, asciiBytes.Length);
         }
     }
 }

@@ -6,55 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Threading;
+using System.Security.Cryptography.X509Certificates;
+
 
 namespace ProjectICT
 {
     class Leds
     {
-        Brush filledBrush = Brushes.Yellow;
-        Brush transparentBrush = Brushes.Transparent;
 
+		private byte comData;
 
-        private bool toggle1;
-
-		public bool  Toggle1
-		{
-			get { return toggle1; }
-			set { toggle1 = value; }
-		}
-
-		private bool toggle2;
-
-        public bool Toggle2
-        {
-            get { return toggle2; }
-            set { toggle2 = value; }
-        }
-
-
-        private bool toggle3;
-
-        public bool Toggle3
-        {
-            get { return toggle3; }
-            set { toggle3 = value; }
-        }
-
-        private bool toggle4;
-
-        public bool Toggle4
-        {
-            get { return toggle4; }
-            set { toggle4 = value; }
-        }
-
-
-        private int teller;
-
-
-		private int comData;
-
-		public int ComData
+		public byte ComData
 		{
 			get 
 			{ 
@@ -63,11 +25,18 @@ namespace ProjectICT
 			set 
 			{ 
 				comData = value;
-				Toggle();
+                string binaire = Convert.ToString(comData, 2).PadLeft(8, '0');
+                ToLeds(binaire);
 			}
 		}
 
-		private bool led1;
+
+       
+
+
+
+
+        private bool led1;
 
 		public bool Led1
 		{
@@ -133,81 +102,19 @@ namespace ProjectICT
 
 
 
-        public void Reset()
-		{
-			ByteToLeds(0);
-			teller = 0;
+        
+
 		
-		}
 
-		private void Toggle()
-		{
-			if (comData == 1) 
-			{ 
-				toggle1 = !toggle1;
-				toggle2 = false;
-				toggle3 = false;
-				toggle4 = false;
 
-			}
-			if (comData == 2) 
-			{
-				toggle2 = !toggle2;
-                toggle1 = false;
-                toggle3 = false;
-                toggle4 = false;
-            }
-			if (comData == 3) 
-			{
-				toggle3 = !toggle3;
-                toggle1 = false;
-                toggle2 = false;
-                toggle4 = false;
-            }
-			if (comData == 4)
-			{ 
-				toggle4 = !toggle4;
-                toggle1 = false;
-                toggle2 = false;
-                toggle3 = false;
-            }
 		
-		}
 
-
-		public void Aansturen()
-		{
-			if (toggle1 == true)
-			{
-				if (teller == 0 || teller ==9) { teller = 1; }
-				
-				ByteToLeds(teller);
-				teller++;
-				
-			}
-			if (toggle2 == true)
-			{
-				
-
-			}
-			if (toggle3 == true)
-			{
-
-			}
-			if (toggle4 == true)
-			{
-
-			}
-
-
-		}
-
-		private void ByteToLeds (int data)
+		private void ToLeds (string data)
 		{
 			
 
 
-            if (data == 1 )
+            if (data[7] == '1' )
 			{
 				led1 = true;
                 
@@ -218,7 +125,7 @@ namespace ProjectICT
             }
                 
 
-            if (data == 2)
+            if (data[6] == '1')
             {
 				led2 = true;
 			}  
@@ -228,7 +135,7 @@ namespace ProjectICT
 			}
                 
 
-            if (data == 3)
+            if (data[5] == '1')
             {
 				led3 = true;
 			}    
@@ -238,7 +145,7 @@ namespace ProjectICT
 			}
                 
 
-            if (data == 4)
+            if (data[4] == '1')
             {
 				led4 = true;
 			}   
@@ -248,7 +155,7 @@ namespace ProjectICT
 			}
                 
 
-            if (data == 5)
+            if (data[3] == '1')
             {
 				led5 = true;
 			}   
@@ -258,7 +165,7 @@ namespace ProjectICT
 			}
                 
 
-            if (data == 6)
+            if (data[2] == '1')
             {
 				led6 = true;
 			}   
@@ -268,7 +175,7 @@ namespace ProjectICT
 			}
                 
 
-            if (data == 7)
+            if (data[1] == '1')
             {
 				led7 = true;
 			} 
@@ -278,7 +185,7 @@ namespace ProjectICT
 			}
                 
 
-            if (data == 8)
+            if (data[0] == '1')
             {
 				led8 = true;
 			}  
@@ -286,10 +193,15 @@ namespace ProjectICT
 			{
 				led8 = false;
 			}
-			
-			
-                
+
+            
+
+
         }
+
+        
+
+
 
     }
 
