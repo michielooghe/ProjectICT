@@ -23,7 +23,7 @@ namespace ProjectICT
     public partial class MainWindow : Window
     {
         SerialPort _serialPort;
-        Leds _leds;
+        Leds  _leds;
 
         
 
@@ -46,6 +46,7 @@ namespace ProjectICT
             _leds = new Leds();
 
             // Komt er data binnen? Ga verder naar de event handler.
+            // De methode word uitgevoerd als het evenement plaatsvindt.
             _serialPort.DataReceived += _serialPort_DataReceived;
 
             cbxComPorts.Items.Add("None");
@@ -58,13 +59,15 @@ namespace ProjectICT
             // Lees alle tekst binnen tot er een new line passeert... (\n).
             string receivedText = _serialPort.ReadLine().Trim();
 
-            //// Poging met error...
-            //// Plaats de ontvangen dat op het Label.
-            //lblReceivedData.Content = receivedText;
+
 
             // Geef de data door aan een thread van de GUI om zo 
-            // het Label aan te passen.
+            // Gegevens komen toe op een achtergrond thread. 
+            // Update word aangeroepen op de UI thread met receivedText als argument.
+
             Dispatcher.Invoke(new Action<string>(Update), receivedText);
+            
+            
         }
 
         private void Update(string text)
@@ -123,12 +126,21 @@ namespace ProjectICT
             if (_serialPort != null)
             {
                 if (_serialPort.IsOpen)
+                {
+                    omzetten("t");
                     _serialPort.Close();
+                    _leds.ComData = 0;
+                    LedUpdate();
+                }
+                    
 
                 if (cbxComPorts.SelectedItem.ToString() != "None")
                 {
                     _serialPort.PortName = cbxComPorts.SelectedItem.ToString();
                     _serialPort.Open();
+                    omzetten("o");
+                    LedUpdate();
+
                 }
             }
         }
@@ -141,31 +153,32 @@ namespace ProjectICT
 
         private void knop1_Click(object sender, RoutedEventArgs e)
         {
-            string dataToSend = "1";
-            byte[] asciiBytes = Encoding.ASCII.GetBytes(dataToSend);
-            _serialPort.Write(asciiBytes, 0, asciiBytes.Length);
+            omzetten("1");
 
         }
 
         private void knop2_Click(object sender, RoutedEventArgs e)
         {
-            string dataToSend = "2";
-            byte[] asciiBytes = Encoding.ASCII.GetBytes(dataToSend);
-            _serialPort.Write(asciiBytes, 0, asciiBytes.Length);
+            omzetten("2");
         }
 
         private void knop3_Click(object sender, RoutedEventArgs e)
         {
-            string dataToSend = "3";
-            byte[] asciiBytes = Encoding.ASCII.GetBytes(dataToSend);
-            _serialPort.Write(asciiBytes, 0, asciiBytes.Length);
+            omzetten("3");
         }
 
         private void knop4_Click(object sender, RoutedEventArgs e)
         {
-            string dataToSend = "4";
-            byte[] asciiBytes = Encoding.ASCII.GetBytes(dataToSend);
-            _serialPort.Write(asciiBytes, 0, asciiBytes.Length);
+            omzetten("4");
+        }
+
+        private void omzetten (string dataToSend)
+        {
+            if (_serialPort.IsOpen)
+            {
+                byte[] asciiBytes = Encoding.ASCII.GetBytes(dataToSend);
+                _serialPort.Write(asciiBytes, 0, asciiBytes.Length);
+            }
         }
     }
 }
